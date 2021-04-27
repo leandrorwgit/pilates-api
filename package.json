@@ -1,0 +1,29 @@
+{
+  "name": "pilates-api",
+  "version": "0.0.1",
+  "description": "API para sistema de pilates",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandrorwgit/pilates-app.git"
+  },
+  "keywords": [
+    "pilates"
+  ],
+  "author": "Leandro Ricardo Wormsbecher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leandrorwgit/pilates-app/issues"
+  },
+  "homepage": "https://github.com/leandrorwgit/pilates-app#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.1.2"
+  }
+}
