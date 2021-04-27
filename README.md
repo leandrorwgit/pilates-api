@@ -1,2 +1,2 @@
-# pilates-app
+# pilates-api
 API para sistema de pilates
