@@ -1,0 +1,46 @@
+version: "3"
+services:
+
+  api:
+    image: node:14.3-slim
+    container_name: "pilatesapi-api"
+    ports:
+      - "3000:3000"
+    working_dir: "/home/node/app"
+    volumes:
+      - ./:/home/node/app
+    command:
+      - sh
+      - -c
+      - |
+        npm install
+        npm start
+    networks:
+      - backend-network    
+
+  postgres:
+    container_name: pilatesapi-postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Pilates2021#!}
+      PGDATA: /data/postgres
+    volumes:
+      - ./.dbcache/postgres/data:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:6.0-alpine
+    container_name: "pilatesapi-redis"
+    ports:
+      - "6379:6379"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: "bridge"
