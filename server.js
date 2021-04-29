@@ -6,7 +6,7 @@ app.use(express.urlencoded({
   extended: true
 }));
  
-const db = require('./app/config/db.config.js');
+const db = require('./src/config/db.config.js');
  
 require('./app/routes/usuario.route.js')(app);
  
