@@ -1,7 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
-	const Usuario = sequelize.define('usuario', {
+	const Usuarios = sequelize.define('Usuarios', {
 		id: {
-			type: Sequelize.INTEGER
+			type: Sequelize.INTEGER,
+			primaryKey: true
 		},
 		nome: {
 			type: Sequelize.STRING
@@ -9,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
 		email: {
 			type: Sequelize.STRING
 		},
-		password: {
+		senha: {
 			type: Sequelize.STRING
 		},
 		empresa: {
@@ -18,13 +19,13 @@ module.exports = (sequelize, Sequelize) => {
 		ativo: {
 			type: Sequelize.BOOLEAN
 		},
-		dataCriacao: {
+		createdAt: {
 			type: Sequelize.DATE
 		},
-		dataAtualizacao: {
+		updatedAt: {
 			type: Sequelize.DATE
 		}
   });
 
-  return Usuario;
+  return Usuarios;
 }

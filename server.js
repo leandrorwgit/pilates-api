@@ -8,7 +8,7 @@ app.use(express.urlencoded({
  
 const db = require('./src/config/db.config.js');
  
-require('./app/routes/usuario.route.js')(app);
+require('./src/routes/usuario.route.js')(app);
  
 // Create a Server
 var server = app.listen(process.env.PORT || 3000, function () {
