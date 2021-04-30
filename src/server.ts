@@ -1,7 +1,5 @@
-import dotenv from "dotenv";
 import express from 'express';
-
-dotenv.config();
+import { usuarioRouter } from "./routes/usuario.route";
 
 const app = express();
 app.use(express.json());
@@ -9,9 +7,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.get('/', (req, res) => {
-    return res.json({message: 'Hello World'});
-});
+app.use('/', usuarioRouter);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => {
