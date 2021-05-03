@@ -1,15 +1,38 @@
 import express from 'express';
-import { usuarioRouter } from "./routes/usuario.route";
+import cors from 'cors';
+import compression from 'compression';
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+import { UsuarioRoutes } from "./routes/usuario.routes";
 
-app.use('/', usuarioRouter);
+class Server {
+  public app: express.Application
 
-const port = process.env.PORT || 3000;
-var server = app.listen(port, () => {
-    console.log("App listening at %s", port)
-});
+  constructor() {
+    this.app = express()
+    this.config()
+    this.routes()
+  }
+
+  public routes(): void {
+    this.app.use('/api/usuario', new UsuarioRoutes().router)
+    //this.app.use('/api/aluno', new AlunoRoutes().router)
+  }
+
+  public config(): void {
+    this.app.set('port', process.env.PORT || 3000)
+    this.app.use(express.json())
+    this.app.use(express.urlencoded({ extended: false }))
+    this.app.use(compression())
+    this.app.use(cors())
+  }
+
+  public start(): void {
+    this.app.listen(this.app.get('port'), () => {
+      console.log('  API is running at http://localhost:%d', this.app.get('port'))
+    })
+  }
+}
+
+const server = new Server()
+
+server.start()

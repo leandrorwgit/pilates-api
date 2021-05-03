@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 
-interface UsuarioAttributes {
+export interface UsuarioAttributes {
 	id: number;
 	nome: string;
 	email: string;
@@ -22,7 +22,7 @@ interface UsuarioInstance
       updatedAt?: Date;
 	}
 
-const Usuario = sequelize.define<UsuarioInstance>(
+	export const Usuario = sequelize.define<UsuarioInstance>(
 	'Usuario',
 	{
 		id: {
@@ -55,5 +55,3 @@ const Usuario = sequelize.define<UsuarioInstance>(
 		},            
 	}
 );
-
-export default Usuario;
