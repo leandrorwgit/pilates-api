@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { AuthMiddleware } from '../auth/auth.middleware'
+import { verificarJwt } from "../auth/verificarJwt";
 import { UsuarioController } from '../controllers/usuario.controller'
 
 export class UsuarioRoutes {
@@ -11,7 +11,9 @@ export class UsuarioRoutes {
     this.routes()
   }
   routes() {
-    this.router.post('/registrar', this.usuarioController.registrarUsuario);
-    this.router.post('/login', AuthMiddleware.autorizarJWT, this.usuarioController.autenticarUsuario);
+    this.router.post('/registrar', this.usuarioController.registrar);
+    this.router.post('/login', this.usuarioController.login);
+
+    this.router.get('/', [verificarJwt], this.usuarioController.listarUsuario);
   }
 }

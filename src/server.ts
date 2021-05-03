@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import compression from 'compression';
+import helmet from "helmet";
 
 import { UsuarioRoutes } from "./routes/usuario.routes";
 
@@ -24,6 +25,7 @@ class Server {
     this.app.use(express.urlencoded({ extended: false }))
     this.app.use(compression())
     this.app.use(cors())
+    this.app.use(helmet());
   }
 
   public start(): void {
