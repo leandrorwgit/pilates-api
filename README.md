@@ -5,4 +5,4 @@ API para sistema de pilates.
 <br/>
 DATABASE_URL=postgres://user:pass@localhost/dbname
 <br/>
-JWT_SECRET=123
+JWT_SECRET=node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
