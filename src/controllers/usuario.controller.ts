@@ -50,8 +50,9 @@ export class UsuarioController {
   }
 
   public listarUsuario(req: Request, res: Response) {
-    Usuario.findAll().then(usuario => {
-      res.send(usuario);
+    Usuario.findAll().then(usuarios => {
+      usuarios.forEach(usuario => {usuario.senha = null});
+      res.send(usuarios);
     });
   }  
 }
