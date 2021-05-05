@@ -24,7 +24,7 @@ export const verificarJwt = async (req: Request, res: Response, next: NextFuncti
   try {
     const usuario = await Usuario.findByPk(jwtPayload.id);
     if (usuario) {
-      req.user = usuario;
+      req['usuario'] = usuario;
       next();
     } else {
       res.status(401).send({ erro: 'Usuário id token.' });

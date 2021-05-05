@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { gerarJwt } from "../auth/gerarJwt";
 import { Validadoes } from '../util/validacoes-comuns';
 import { Usuario } from '../models/usuario';
-import { InternalServerError } from '../util/erros';
+import { getMensagemErro, InternalServerError } from '../util/erros';
 
 export class UsuarioController {
   public async registrar(req: Request, res: Response): Promise<void> {
@@ -19,12 +19,14 @@ export class UsuarioController {
         email: req.body.email,
         senha: senhaCripto,
         empresa: req.body.empresa,
+        cpf: req.body.cpf,
         ativo: true
       });
 
       res.status(200).send({ token: gerarJwt(await usuario) });
     } catch (erro) {
-      res.status(400).send({ mensagem: erro.message });
+      console.log(erro);
+      res.status(400).send({ mensagem: getMensagemErro(erro) });
     }
   }
 
@@ -45,14 +47,13 @@ export class UsuarioController {
 
       throw new InternalServerError('Usuário ou senha inválida.');
     } catch (erro) {
-      res.status(400).send({ mensagem: erro.message });
+      res.status(400).send({ mensagem: getMensagemErro(erro) });
     }
   }
 
-  public listarUsuario(req: Request, res: Response) {
-    Usuario.findAll().then(usuarios => {
-      usuarios.forEach(usuario => {usuario.senha = null});
-      res.send(usuarios);
-    });
+  public async listarUsuario(req: Request, res: Response) {
+    const usuarios = await Usuario.findAll();
+    usuarios.forEach(usuario => {usuario.senha = null});
+    res.send(usuarios);
   }  
 }

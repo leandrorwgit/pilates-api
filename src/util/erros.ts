@@ -11,3 +11,7 @@ export class InternalServerError extends Error {
     this.name = 'InternalServerError';
   }
 }
+
+export function getMensagemErro(erro: any): string {
+  return erro.errors ? erro.errors[0].message : erro.message
+}

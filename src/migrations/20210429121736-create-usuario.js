@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      cpf: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },      
       ativo: {
         allowNull: false,
         type: Sequelize.BOOLEAN,

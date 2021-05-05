@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
+import { Aluno } from '../models/aluno';
 
 export interface UsuarioAttributes {
 	id: number;
@@ -7,6 +8,7 @@ export interface UsuarioAttributes {
 	email: string;
 	senha: string;
 	empresa: string;
+	cpf: string;
 	ativo: boolean;
 }
 
@@ -49,9 +51,29 @@ interface UsuarioInstance
 			allowNull: false,
 			type: DataTypes.STRING,
 		},
+		cpf: {
+			allowNull: true,
+			type: DataTypes.STRING,
+		},		
 		ativo: {
 			allowNull: false,
 			type: DataTypes.BOOLEAN,
 		},            
 	}
 );
+
+Usuario.hasMany(Aluno, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'alunos'
+});
+
+Aluno.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'usuario'
+});

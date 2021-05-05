@@ -4,6 +4,7 @@ import compression from 'compression';
 import helmet from "helmet";
 
 import { UsuarioRoutes } from "./routes/usuario.routes";
+import { AlunoRoutes } from './routes/aluno.routes';
 
 class Server {
   public app: express.Application
@@ -16,7 +17,7 @@ class Server {
 
   public routes(): void {
     this.app.use('/api/usuario', new UsuarioRoutes().router)
-    //this.app.use('/api/aluno', new AlunoRoutes().router)
+    this.app.use('/api/aluno', new AlunoRoutes().router)
   }
 
   public config(): void {
