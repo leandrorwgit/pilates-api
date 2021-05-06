@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 import { Aluno } from '../models/aluno';
+import { Evolucao } from './evolucao';
 
 export interface UsuarioAttributes {
 	id: number;
@@ -62,6 +63,7 @@ interface UsuarioInstance
 	}
 );
 
+// MAPEAMENTO PARA ALUNO
 Usuario.hasMany(Aluno, {
   /*
     You can omit the sourceKey property
@@ -72,8 +74,24 @@ Usuario.hasMany(Aluno, {
   foreignKey: 'idUsuario',
   as: 'alunos'
 });
-
 Aluno.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'usuario'
+});
+
+// MAPEAMENTO PARA EVOLUCAO
+Usuario.hasMany(Evolucao, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'evolucaos'
+});
+
+Evolucao.belongsTo(Usuario, {
   foreignKey: 'idUsuario',
   as: 'usuario'
 });
