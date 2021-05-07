@@ -4,7 +4,7 @@ import { AlunoController } from '../controllers/aluno.controller'
 
 export class AlunoRoutes {
   router: Router
-  public alunoController: AlunoController = new AlunoController()
+  public alunoController = new AlunoController()
 
   constructor() {
     this.router = Router()

@@ -4,7 +4,7 @@ import { UsuarioController } from '../controllers/usuario.controller'
 
 export class UsuarioRoutes {
   router: Router
-  public usuarioController: UsuarioController = new UsuarioController()
+  public usuarioController = new UsuarioController()
 
   constructor() {
     this.router = Router()

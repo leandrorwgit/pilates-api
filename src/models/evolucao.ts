@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 
@@ -11,6 +12,8 @@ export interface EvolucaoAttributes {
   aparelhosUtilizados: string;
   comoSaiu: string;
   orientacoesDomiciliares: string;
+  createdAt?: Date;
+  updatedAt?: Date;  
 }
 
 /*
@@ -20,10 +23,7 @@ export interface EvolucaoAttributes {
 interface EvolucaoCreationAttributes extends Optional<EvolucaoAttributes, 'id'> {}
 
 interface EvolucaoInstance
-  extends Model<EvolucaoAttributes, EvolucaoCreationAttributes>, EvolucaoAttributes {
-      createdAt?: Date;
-      updatedAt?: Date;
-	}
+  extends Model<EvolucaoAttributes, EvolucaoCreationAttributes>, EvolucaoAttributes { }
 
 	export const Evolucao = sequelize.define<EvolucaoInstance>(
 	'Evolucao',
@@ -61,6 +61,17 @@ interface EvolucaoInstance
     },
     orientacoesDomiciliares: {
       type: DataTypes.TEXT
-    },            
+    },  
+    createdAt: {
+      type: DataTypes.DATE,
+      /*
+      get() {
+        return moment(this.getDataValue('createdAt')).format('YYYY-MM-DDTH:mm:ss.Z');
+      }
+      */
+    },          
+    updatedAt: {
+      type: DataTypes.DATE
+    },          
 	}
 );
