@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 
@@ -73,5 +72,8 @@ interface EvolucaoInstance
     updatedAt: {
       type: DataTypes.DATE
     },          
-	}
+	},
+  {
+    tableName: 'Evolucao'
+  }
 );

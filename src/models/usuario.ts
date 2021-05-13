@@ -60,6 +60,9 @@ interface UsuarioInstance
 			allowNull: false,
 			type: DataTypes.BOOLEAN,
 		},            
+	}, 
+	{
+		tableName: 'Usuario'
 	}
 );
 
@@ -88,7 +91,7 @@ Usuario.hasMany(Evolucao, {
   */
   sourceKey: 'id',
   foreignKey: 'idUsuario',
-  as: 'evolucaos'
+  as: 'evolucoes'
 });
 
 Evolucao.belongsTo(Usuario, {

@@ -112,7 +112,10 @@ interface AlunoInstance
 			allowNull: false,
 			type: DataTypes.BOOLEAN,
 		},            
-	}
+	},
+  {
+    tableName: 'Aluno'
+  }
 );
 
 // MAPEAMENTO PARA EVOLUCAO

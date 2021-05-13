@@ -77,18 +77,18 @@ export class EvolucaoController {
   }  
 
   public async listar(req: Request, res: Response) {
-    //const evolucaos = await Evolucao.findAll({ include: ["usuario"] });
+    //const evolucoes = await Evolucao.findAll({ include: ["usuario"] });
     Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
 
     const whereIdAluno = req.query.idAluno ? {idAluno: req.query.idAluno} : {};
     //const whereData = req.query.data ? {data: req.query.data} : {};
-    const whereData = Sequelize.where(Sequelize.fn('date', Sequelize.col('data')), req.query.data);
+    const whereData = req.query.data ? Sequelize.where(Sequelize.fn('date', Sequelize.col('data')), req.query.data.toString()) : {};
     
     const offset = req.query.pagina && req.query.tamanhoMax ? 
       (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : null;
     const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : null;
 
-    const evolucaos = await Evolucao.findAll({ 
+    const evolucoes = await Evolucao.findAll({ 
       where: {
         [Op.and]: [
           {idUsuario: req['usuario'].id},
@@ -99,6 +99,6 @@ export class EvolucaoController {
       offset: offset,
       limit: limit,
     });
-    res.send(evolucaos);
+    res.send(evolucoes);
   }  
 }
