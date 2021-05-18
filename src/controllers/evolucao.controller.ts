@@ -88,7 +88,8 @@ export class EvolucaoController {
       (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : null;
     const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : null;
 
-    const evolucoes = await Evolucao.findAll({ 
+    const evolucoes = await Evolucao.findAll({
+      include: [{association: 'aluno', attributes: ['id', 'nome']}], 
       where: {
         [Op.and]: [
           {idUsuario: req['usuario'].id},
