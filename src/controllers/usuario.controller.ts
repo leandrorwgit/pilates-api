@@ -53,7 +53,7 @@ export class UsuarioController {
 
   public async listarUsuario(req: Request, res: Response) {
     const usuarios = await Usuario.findAll();
-    usuarios.forEach(usuario => {usuario.senha = null});
+    usuarios.forEach(usuario => {usuario.senha = ''});
     res.send(usuarios);
   }  
 }

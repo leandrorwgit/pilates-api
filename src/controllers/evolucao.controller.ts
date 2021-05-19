@@ -37,6 +37,8 @@ export class EvolucaoController {
       Validadoes.campoStringNaoNulo(req.body.data, 'data');
 
       const evolucao = await Evolucao.findByPk(req.params.id);
+      if (evolucao == null )
+      throw Error('Evolução não encontrada');
 
       if (evolucao.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode alterar esse registro.`);
@@ -63,6 +65,8 @@ export class EvolucaoController {
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
 
       const evolucao = await Evolucao.findByPk(req.params.id);
+      if (evolucao == null )
+        throw Error('Evolução não encontrada');
 
       if (evolucao.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode excluir esse registro.`);
@@ -85,8 +89,8 @@ export class EvolucaoController {
     const whereData = req.query.data ? Sequelize.where(Sequelize.fn('date', Sequelize.col('data')), req.query.data.toString()) : {};
     
     const offset = req.query.pagina && req.query.tamanhoMax ? 
-      (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : null;
-    const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : null;
+      (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : undefined;
+    const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : undefined;
 
     const evolucoes = await Evolucao.findAll({
       include: [{association: 'aluno', attributes: ['id', 'nome']}], 

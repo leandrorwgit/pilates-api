@@ -48,6 +48,8 @@ export class AlunoController {
       Validadoes.campoStringNaoNulo(req.body.ativo, 'ativo');
 
       const aluno = await Aluno.findByPk(req.params.id);
+      if (aluno == null )
+        throw Error('Aluno não encontrado');
 
       if (aluno.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode alterar esse registro.`);
@@ -86,6 +88,8 @@ export class AlunoController {
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
 
       const aluno = await Aluno.findByPk(req.params.id);
+      if (aluno == null )
+        throw Error('Aluno não encontrado');
 
       if (aluno.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode excluir esse registro.`);
@@ -107,8 +111,8 @@ export class AlunoController {
     const whereAtivo = req.query.ativo ? {ativo: req.query.ativo} : {};
     
     const offset = req.query.pagina && req.query.tamanhoMax ? 
-      (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : null;
-    const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : null;
+      (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : undefined;
+    const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : undefined;
 
     const alunos = await Aluno.findAll({ 
       where: {
