@@ -21,8 +21,8 @@ export interface AlunoAttributes {
   aulaQui: boolean;
   aulaSex: boolean;
   aulaSab: boolean;
-  aulaHorarioIni: string;
-  aulaHorarioFim: string;
+  aulaHorarioInicio: string;
+  aulaDuracao: number;
 	ativo: boolean;
 }
 
@@ -102,11 +102,11 @@ interface AlunoInstance
     aulaSab: {
       type: DataTypes.BOOLEAN
     },
-    aulaHorarioIni: {
+    aulaHorarioInicio: {
       type: DataTypes.STRING
     },
-    aulaHorarioFim: {
-      type: DataTypes.STRING
+    aulaDuracao: {
+      type: DataTypes.INTEGER
     },     
 		ativo: {
 			allowNull: false,

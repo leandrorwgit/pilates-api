@@ -29,8 +29,8 @@ export class AlunoController {
         aulaQui: req.body.aulaQui,
         aulaSex: req.body.aulaSex,
         aulaSab: req.body.aulaSab,
-        aulaHorarioIni: req.body.aulaHorarioIni,
-        aulaHorarioFim: req.body.aulaHorarioFim,
+        aulaHorarioInicio: req.body.aulaHorarioInicio,
+        aulaDuracao: req.body.aulaDuracao,
         ativo: true
       });
 
@@ -71,8 +71,8 @@ export class AlunoController {
       aluno.aulaQui = req.body.aulaQui;
       aluno.aulaSex = req.body.aulaSex;
       aluno.aulaSab = req.body.aulaSab;
-      aluno.aulaHorarioIni = req.body.aulaHorarioIni;
-      aluno.aulaHorarioFim = req.body.aulaHorarioFim;
+      aluno.aulaHorarioInicio = req.body.aulaHorarioInicio;
+      aluno.aulaDuracao = req.body.aulaDuracao;
       aluno.ativo = req.body.ativo;
       const alunoAtualizado = await aluno.save();
 

@@ -64,11 +64,11 @@ module.exports = {
       aulaSab: {
         type: Sequelize.BOOLEAN
       },
-      aulaHorarioIni: {
+      aulaHorarioInicio: {
         type: Sequelize.STRING
       },
-      aulaHorarioFim: {
-        type: Sequelize.STRING
+      aulaDuracao: {
+        type: Sequelize.INTEGER
       },      
       ativo: {
         allowNull: false,
