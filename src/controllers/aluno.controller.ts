@@ -124,6 +124,9 @@ export class AlunoController {
       },
       offset: offset,
       limit: limit,
+      order: [
+        ['nome', 'ASC']
+      ]
     });
     res.send(alunos);
   }  
