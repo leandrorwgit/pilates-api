@@ -3,6 +3,7 @@ import { Validadoes } from '../util/validacoes-comuns';
 import { Evolucao } from '../models/evolucao';
 import { getMensagemErro, InternalServerError } from '../util/erros';
 import { Op, Sequelize } from 'sequelize';
+import { Aluno } from '../models/aluno';
 
 export class EvolucaoController {
 
@@ -103,6 +104,10 @@ export class EvolucaoController {
       },
       offset: offset,
       limit: limit,
+      order: [
+        ['data', 'ASC'],
+        ['aluno', 'nome', 'ASC']
+      ]
     });
     res.send(evolucoes);
   }  
