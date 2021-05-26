@@ -16,14 +16,15 @@ export class AgendaController {
       'cast(aluno."aulaHorarioInicio" as time) + (aluno."aulaDuracao"||\' min\')::interval as horaFim, '+
       'date :data as dia '+
       'from "Aluno" as aluno '+
-      'where ((extract(isodow from date :data) = 1) and (aluno."aulaSeg" = true)) '+
+      'where aluno."idUsuario" = :idUsuario '+
+      'and (((extract(isodow from date :data) = 1) and (aluno."aulaSeg" = true)) '+
       'or ((extract(isodow from date :data) = 2) and (aluno."aulaTer" = true)) '+
       'or ((extract(isodow from date :data) = 3) and (aluno."aulaQua" = true)) '+
       'or ((extract(isodow from date :data) = 4) and (aluno."aulaQui" = true)) '+
       'or ((extract(isodow from date :data) = 5) and (aluno."aulaSex" = true)) '+
-      'or ((extract(isodow from date :data) = 6) and (aluno."aulaSab" = true)) ',
+      'or ((extract(isodow from date :data) = 6) and (aluno."aulaSab" = true))) ',
       {
-        replacements: { data: req.query.data },
+        replacements: { idUsuario: req['usuario'].id, data: req.query.data },
         type: QueryTypes.SELECT
       }
     );
