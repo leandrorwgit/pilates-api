@@ -92,7 +92,9 @@ export class EvolucaoController {
 
       if (evolucao.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode ver esse registro.`);
-      }    
+      } 
+      
+      res.send(evolucao);
     } catch (erro) {
       res.status(400).send({ mensagem: 'Erro ao buscar evolução: '+getMensagemErro(erro) });
     }

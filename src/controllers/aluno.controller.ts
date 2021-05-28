@@ -115,6 +115,8 @@ export class AlunoController {
       if (aluno.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode ver esse registro.`);
       }    
+
+      res.send(aluno);
     } catch (erro) {
       res.status(400).send({ mensagem: 'Erro ao buscar aluno: '+getMensagemErro(erro) });
     }
