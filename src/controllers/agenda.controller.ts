@@ -10,22 +10,26 @@ export class AgendaController {
     Validadoes.campoStringNaoNulo(req.query.data, 'data');
     
     const retorno = await sequelize.query(
-      'select '+
-      'aluno."nome" as descricao, '+
-      'cast(aluno."aulaHorarioInicio" as time) as horaIni, '+
-      'cast(aluno."aulaHorarioInicio" as time) + (aluno."aulaDuracao"||\' min\')::interval as horaFim, '+
-      'dias.dia as dia '+
-      'from "Aluno" as aluno '+
-      'join (SELECT * FROM (VALUES (date :data - 1), (date :data), (date :data + 1)) AS d (dia)) as dias on true '+
-      'where aluno."idUsuario" = :idUsuario '+
-      'and aluno."ativo" = true '+
-      'and (((extract(isodow from dias.dia) = 1) and (aluno."aulaSeg" = true)) '+
-      'or ((extract(isodow from dias.dia) = 2) and (aluno."aulaTer" = true)) '+
-      'or ((extract(isodow from dias.dia) = 3) and (aluno."aulaQua" = true)) '+
-      'or ((extract(isodow from dias.dia) = 4) and (aluno."aulaQui" = true)) '+
-      'or ((extract(isodow from dias.dia) = 5) and (aluno."aulaSex" = true)) '+
-      'or ((extract(isodow from dias.dia) = 6) and (aluno."aulaSab" = true))) '+
-      'order by dias.dia, cast(aluno."aulaHorarioInicio" as time) ',
+      'SELECT '+
+      '"aluno"."nome" AS "descricao", '+
+      'CAST("aluno"."aulaHorarioInicio" AS time) AS "horaIni", '+
+      'CAST("aluno"."aulaHorarioInicio" AS time) + ("aluno"."aulaDuracao"||\' min\')::interval AS "horaFim", '+
+      '"dias"."dia" AS "dia", '+
+      '"evolucao"."id" AS "idEvolucao" '+
+      'from "Aluno" AS "aluno" '+
+      'JOIN (SELECT * FROM (VALUES (date :data - 1), (date :data), (date :data + 1)) AS d (dia)) as "dias" ON true '+
+      'LEFT JOIN "Evolucao" AS "evolucao" ON "evolucao"."idAluno" = "aluno"."id" '+
+      'AND CAST("evolucao"."data" AS DATE) = "dias"."dia" '+
+      'AND "evolucao"."idUsuario" = "aluno"."idUsuario" '+
+      'WHERE "aluno"."idUsuario" = :idUsuario '+
+      'AND "aluno"."ativo" = true '+
+      'AND (((EXTRACT(isodow FROM "dias"."dia") = 1) AND ("aluno"."aulaSeg" = true)) '+
+      'OR ((EXTRACT(isodow FROM "dias"."dia") = 2) AND ("aluno"."aulaTer" = true)) '+
+      'OR ((EXTRACT(isodow FROM "dias"."dia") = 3) AND ("aluno"."aulaQua" = true)) '+
+      'OR ((EXTRACT(isodow FROM "dias"."dia") = 4) AND ("aluno"."aulaQui" = true)) '+
+      'OR ((EXTRACT(isodow FROM "dias"."dia") = 5) AND ("aluno"."aulaSex" = true)) '+
+      'OR ((EXTRACT(isodow FROM "dias"."dia") = 6) AND ("aluno"."aulaSab" = true))) '+
+      'ORDER BY "dias"."dia", CAST("aluno"."aulaHorarioInicio" AS time), "aluno"."nome" ',
       {
         replacements: { idUsuario: req['usuario'].id, data: req.query.data },
         type: QueryTypes.SELECT
