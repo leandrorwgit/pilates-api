@@ -81,6 +81,23 @@ export class EvolucaoController {
     }
   }  
 
+  public async buscar(req: Request, res: Response) {
+    try {
+      Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
+      Validadoes.campoStringNaoNulo(req.params.id, 'id');
+      
+      const evolucao = await Evolucao.findByPk(req.params.id);
+      if (evolucao == null )
+        throw Error('Evolução não encontrada');
+
+      if (evolucao.idUsuario != req['usuario'].id) {
+        throw new InternalServerError(`Usuário ${req['usuario'].id} não pode ver esse registro.`);
+      }    
+    } catch (erro) {
+      res.status(400).send({ mensagem: 'Erro ao buscar evolução: '+getMensagemErro(erro) });
+    }
+  }  
+
   public async listar(req: Request, res: Response) {
     //const evolucoes = await Evolucao.findAll({ include: ["usuario"] });
     Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');

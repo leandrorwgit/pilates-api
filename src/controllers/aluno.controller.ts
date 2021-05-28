@@ -103,6 +103,23 @@ export class AlunoController {
     }
   }  
 
+  public async buscar(req: Request, res: Response) {
+    try {
+      Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
+      Validadoes.campoStringNaoNulo(req.params.id, 'id');
+      
+      const aluno = await Aluno.findByPk(req.params.id);
+      if (aluno == null )
+        throw Error('Aluno não encontrado');
+
+      if (aluno.idUsuario != req['usuario'].id) {
+        throw new InternalServerError(`Usuário ${req['usuario'].id} não pode ver esse registro.`);
+      }    
+    } catch (erro) {
+      res.status(400).send({ mensagem: 'Erro ao buscar aluno: '+getMensagemErro(erro) });
+    }
+  }
+
   public async listar(req: Request, res: Response) {
     //const alunos = await Aluno.findAll({ include: ["usuario"] });
     Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');

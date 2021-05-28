@@ -15,6 +15,7 @@ export class EvolucaoRoutes {
     this.router.put('/:id', [verificarJwt], this.evolucaoController.atualizar);
     this.router.delete('/:id', [verificarJwt], this.evolucaoController.deletar);
 
+    this.router.get('/:id', [verificarJwt], this.evolucaoController.buscar);
     this.router.get('/', [verificarJwt], this.evolucaoController.listar);
   }
 }

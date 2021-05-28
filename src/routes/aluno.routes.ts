@@ -15,6 +15,7 @@ export class AlunoRoutes {
     this.router.put('/:id', [verificarJwt], this.alunoController.atualizar);
     this.router.delete('/:id', [verificarJwt], this.alunoController.deletar);
 
+    this.router.get('/:id', [verificarJwt], this.alunoController.buscar);
     this.router.get('/', [verificarJwt], this.alunoController.listar);
   }
 }
