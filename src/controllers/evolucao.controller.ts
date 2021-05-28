@@ -86,7 +86,7 @@ export class EvolucaoController {
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
       Validadoes.campoStringNaoNulo(req.params.id, 'id');
       
-      const evolucao = await Evolucao.findByPk(req.params.id);
+      const evolucao = await Evolucao.findByPk(req.params.id, { include: ["aluno"] });
       if (evolucao == null )
         throw Error('Evolução não encontrada');
 
