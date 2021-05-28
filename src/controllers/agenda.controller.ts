@@ -11,6 +11,7 @@ export class AgendaController {
     
     const retorno = await sequelize.query(
       'SELECT '+
+      '"aluno"."id" AS "idAluno", '+
       '"aluno"."nome" AS "descricao", '+
       'CAST("aluno"."aulaHorarioInicio" AS time) AS "horaIni", '+
       'CAST("aluno"."aulaHorarioInicio" AS time) + ("aluno"."aulaDuracao"||\' min\')::interval AS "horaFim", '+
