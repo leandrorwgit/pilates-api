@@ -2,44 +2,56 @@ version: "3"
 services:
 
   api:
-    image: node:14.3-slim
-    container_name: "pilatesapi-api"
+    build: .
+    container_name: "pa-api"
+    environment:
+      DATABASE_URL: postgres://postgres:TestePilates@pa-postgres/bd_pilates
+      DATABASE_SSL: 'false'
     ports:
       - "3000:3000"
-    working_dir: "/home/node/app"
-    volumes:
-      - ./:/home/node/app
-    command:
-      - sh
-      - -c
-      - |
-        npm install
-        npm start
+    command: yarn start
     networks:
       - backend-network    
 
   postgres:
-    container_name: pilatesapi-postgres
+    container_name: pa-postgres
     image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Pilates2021#!}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: TestePilates
       PGDATA: /data/postgres
     volumes:
-      - ./.dbcache/postgres/data:/data/postgres
+      - ./data/postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
       - backend-network
     restart: unless-stopped
 
-  redis:
-    image: redis:6.0-alpine
-    container_name: "pilatesapi-redis"
-    ports:
-      - "6379:6379"
-    networks:
-      - backend-network
+  # reverse-proxy:
+  #   container_name: "pa-traefik"
+  #   image: traefik
+  #   command:
+  #     # Enabling docker provider
+  #     - "--providers.docker=true"
+  #     # Do not expose containers unless explicitly told so
+  #     - "--providers.docker.exposedbydefault=false"
+  #     - "--entrypoints.web-secure.address=:443"
+  #     - "--providers.docker=true"
+  #     - "--serverstransport.insecureskipverify=true"
+  #   ports:
+  #     - "443:443"      
+  #     - "8080:8080"
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  # redis:
+  #   image: redis:6.0-alpine
+  #   container_name: "pa-redis"
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - backend-network
 
 networks:
   backend-network:
