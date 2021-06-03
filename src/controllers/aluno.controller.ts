@@ -45,7 +45,6 @@ export class AlunoController {
       Validadoes.campoStringNaoNulo(req.params.id, 'id');
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
       Validadoes.campoStringNaoNulo(req.body.nome, 'nome');
-      Validadoes.campoStringNaoNulo(req.body.ativo, 'ativo');
 
       const aluno = await Aluno.findByPk(req.params.id);
       if (aluno == null )
