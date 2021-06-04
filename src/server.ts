@@ -7,6 +7,7 @@ import { UsuarioRoutes } from "./routes/usuario.routes";
 import { AlunoRoutes } from './routes/aluno.routes';
 import { EvolucaoRoutes } from './routes/evolucao.routes';
 import { AgendaRoutes } from './routes/agenda.routes';
+import { AgendamentoRoutes } from './routes/agendamento.routes';
 
 class Server {
   public app: express.Application;
@@ -22,6 +23,7 @@ class Server {
     this.app.use('/api/aluno', new AlunoRoutes().router);
     this.app.use('/api/evolucao', new EvolucaoRoutes().router);
     this.app.use('/api/agenda', new AgendaRoutes().router);
+    this.app.use('/api/agendamento', new AgendamentoRoutes().router);
   }
 
   public config(): void {

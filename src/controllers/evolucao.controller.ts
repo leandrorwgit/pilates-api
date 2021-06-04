@@ -3,7 +3,6 @@ import { Validadoes } from '../util/validacoes-comuns';
 import { Evolucao } from '../models/evolucao';
 import { getMensagemErro, InternalServerError } from '../util/erros';
 import { Op, Sequelize } from 'sequelize';
-import { Aluno } from '../models/aluno';
 
 export class EvolucaoController {
 
