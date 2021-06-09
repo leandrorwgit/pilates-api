@@ -11,6 +11,8 @@ export class AgendaController {
     
     const retorno = await sequelize.query(
       'SELECT '+
+      '\'ALUNO\' AS "tipo", '+
+      'NULL AS "situacao", '+
       '"aluno"."id" AS "idAluno", '+
       '"aluno"."nome" AS "descricao", '+
       'CAST("aluno"."aulaHorarioInicio" AS time) AS "horaIni", '+
@@ -30,8 +32,35 @@ export class AgendaController {
       'OR ((EXTRACT(isodow FROM "dias"."dia") = 4) AND ("aluno"."aulaQui" = true)) '+
       'OR ((EXTRACT(isodow FROM "dias"."dia") = 5) AND ("aluno"."aulaSex" = true)) '+
       'OR ((EXTRACT(isodow FROM "dias"."dia") = 6) AND ("aluno"."aulaSab" = true))) '+
-      'ORDER BY "dias"."dia", CAST("aluno"."aulaHorarioInicio" AS time), "aluno"."nome" ',
+      'AND "aluno"."id" NOT IN ( '+
+      '  SELECT "agendamento"."idAluno" '+
+      '  FROM "Agendamento" AS "agendamento" '+
+      '  WHERE CAST("agendamento"."dataHoraInicio" AS DATE) = "dias"."dia" '+
+      '  AND "agendamento"."situacao" = \'CANCELADO\' '+
+      ') '+
+      'UNION '+
+      'SELECT '+ 
+      '\'AGENDAMENTO\' AS "tipo", '+
+      '"agendamento"."situacao" AS "situacao", '+
+      '"aluno"."id" AS "idAluno", '+
+      '"agendamento"."titulo" AS "descricao", '+
+      'CAST("agendamento"."dataHoraInicio" AS time) AS "horaIni", '+
+      'CAST("agendamento"."dataHoraInicio" AS time) + ("agendamento"."duracao"||\' min\')::interval AS "horaFim", '+
+      '"dias"."dia" AS "dia", '+
+      '"evolucao"."id" AS "idEvolucao" '+
+      'FROM "Agendamento" AS "agendamento" '+
+      'JOIN (SELECT * FROM (VALUES (date :data - 1), (date :data), (date :data + 1)) AS d (dia)) as "dias" ON '+
+      '"dias"."dia" = CAST("agendamento"."dataHoraInicio" AS DATE) '+
+      'LEFT JOIN "Aluno" AS "aluno" ON "agendamento"."idAluno" = "aluno"."id" '+
+      'LEFT JOIN "Evolucao" AS "evolucao" ON "evolucao"."idAluno" = "aluno"."id" '+
+      'AND CAST("evolucao"."data" AS DATE) = "dias"."dia" '+
+      'AND "evolucao"."idUsuario" = "aluno"."idUsuario" '+
+      'WHERE "agendamento"."situacao" != \'CANCELADO\' '+
+      'AND "aluno"."idUsuario" = 1 '+
+      'AND "aluno"."ativo" = TRUE '+
+      'ORDER BY "dia", "horaIni", "descricao" ',
       {
+        raw: false,
         replacements: { idUsuario: req['usuario'].id, data: req.query.data },
         type: QueryTypes.SELECT
       }
