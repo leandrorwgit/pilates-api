@@ -12,6 +12,7 @@ export class AgendaController {
     const retorno = await sequelize.query(
       'SELECT '+
       '\'ALUNO\' AS "tipo", '+
+      'NULL AS "idAgendamento", '+ 
       'NULL AS "situacao", '+
       '"aluno"."id" AS "idAluno", '+
       '"aluno"."nome" AS "descricao", '+
@@ -39,8 +40,9 @@ export class AgendaController {
       '  AND "agendamento"."situacao" = \'CANCELADO\' '+
       ') '+
       'UNION '+
-      'SELECT '+ 
+      'SELECT '+
       '\'AGENDAMENTO\' AS "tipo", '+
+      '"agendamento"."id" AS "idAgendamento", '+ 
       '"agendamento"."situacao" AS "situacao", '+
       '"aluno"."id" AS "idAluno", '+
       '"agendamento"."titulo" AS "descricao", '+
