@@ -53,13 +53,14 @@ export class AgendaController {
       'FROM "Agendamento" AS "agendamento" '+
       'JOIN (SELECT * FROM (VALUES (date :data - 1), (date :data), (date :data + 1)) AS d (dia)) as "dias" ON '+
       '"dias"."dia" = CAST("agendamento"."dataHoraInicio" AS DATE) '+
-      'LEFT JOIN "Aluno" AS "aluno" ON "agendamento"."idAluno" = "aluno"."id" '+
+      'LEFT JOIN "Aluno" AS "aluno" ON "aluno"."id" = "agendamento"."idAluno" '+
+      'AND "aluno"."idUsuario" = "agendamento"."idUsuario" '+
+      'AND "aluno"."ativo" = TRUE '+
       'LEFT JOIN "Evolucao" AS "evolucao" ON "evolucao"."idAluno" = "aluno"."id" '+
       'AND CAST("evolucao"."data" AS DATE) = "dias"."dia" '+
       'AND "evolucao"."idUsuario" = "aluno"."idUsuario" '+
       'WHERE "agendamento"."situacao" != \'CANCELADO\' '+
-      'AND "aluno"."idUsuario" = 1 '+
-      'AND "aluno"."ativo" = TRUE '+
+      'AND "agendamento"."idUsuario" = :idUsuario '+
       'ORDER BY "dia", "horaIni", "descricao" ',
       {
         raw: false,
