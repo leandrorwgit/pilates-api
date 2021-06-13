@@ -1,6 +1,9 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 import { Aluno } from '../models/aluno';
+import { Agendamento } from './agendamento';
+import { ContasPagar } from './contaspagar';
+import { ContasPagarPagamento } from './contaspagarpagamento';
 import { Evolucao } from './evolucao';
 
 export interface UsuarioAttributes {
@@ -95,6 +98,57 @@ Usuario.hasMany(Evolucao, {
 });
 
 Evolucao.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'usuario'
+});
+
+// MAPEAMENTO PARA AGENDAMENTO
+Usuario.hasMany(Agendamento, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'agendamentos'
+});
+
+Agendamento.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'usuario'
+});
+
+// MAPEAMENTO PARA CONTASPAGAR
+Usuario.hasMany(ContasPagar, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'contasPagar'
+});
+
+ContasPagar.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'usuario'
+});
+
+// MAPEAMENTO PARA CONTASPAGARPAGAMENTO
+Usuario.hasMany(ContasPagarPagamento, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'contasPagarPagamentos'
+});
+
+ContasPagarPagamento.belongsTo(Usuario, {
   foreignKey: 'idUsuario',
   as: 'usuario'
 });

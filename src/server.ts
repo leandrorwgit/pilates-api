@@ -8,6 +8,8 @@ import { AlunoRoutes } from './routes/aluno.routes';
 import { EvolucaoRoutes } from './routes/evolucao.routes';
 import { AgendaRoutes } from './routes/agenda.routes';
 import { AgendamentoRoutes } from './routes/agendamento.routes';
+import { ContasPagarRoutes } from './routes/contaspagar.routes';
+import { ContasPagarPagamentoRoutes } from './routes/contaspagarpagamento.routes';
 
 class Server {
   public app: express.Application;
@@ -24,6 +26,8 @@ class Server {
     this.app.use('/api/evolucao', new EvolucaoRoutes().router);
     this.app.use('/api/agenda', new AgendaRoutes().router);
     this.app.use('/api/agendamento', new AgendamentoRoutes().router);
+    this.app.use('/api/contaspagar', new ContasPagarRoutes().router);
+    this.app.use('/api/contaspagarpagamento', new ContasPagarPagamentoRoutes().router);
   }
 
   public config(): void {

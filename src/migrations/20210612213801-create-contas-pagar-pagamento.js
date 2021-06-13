@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Evolucao', {
+    await queryInterface.createTable('ContasPagarPagamento', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,33 +16,25 @@ module.exports = {
           key: 'id'
         }            
       },    
-      idAluno: {
+      idContasPagar: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Aluno',
+          model: 'ContasPagar',
           key: 'id'
         }            
       },    
-      data: {
+      dataPagamento: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      comoChegou: {
-        type: Sequelize.TEXT
-      },
-      condutasUtilizadas: {
-        type: Sequelize.TEXT
-      },
-      aparelhosUtilizados: {
-        type: Sequelize.TEXT
-      },
-      comoSaiu: {
-        type: Sequelize.TEXT
-      },
-      orientacoesDomiciliares: {
-        type: Sequelize.TEXT
       },      
+      valorPago: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(10,2)
+      },      
+      formaPagamento: {
+        type: Sequelize.STRING
+      },     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -54,6 +46,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Evolucao');
+    await queryInterface.dropTable('ContasPagarPagamento');
   }
 };

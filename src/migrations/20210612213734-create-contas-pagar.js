@@ -1,13 +1,12 @@
-'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Evolucao', {
+    await queryInterface.createTable('ContasPagar', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      },
+      }, 
       idUsuario: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -16,33 +15,25 @@ module.exports = {
           key: 'id'
         }            
       },    
-      idAluno: {
+      descricao: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Aluno',
-          key: 'id'
-        }            
-      },    
-      data: {
+        type: Sequelize.STRING
+      },
+      diaVencimento: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.INTEGER
       },
-      comoChegou: {
-        type: Sequelize.TEXT
-      },
-      condutasUtilizadas: {
-        type: Sequelize.TEXT
-      },
-      aparelhosUtilizados: {
-        type: Sequelize.TEXT
-      },
-      comoSaiu: {
-        type: Sequelize.TEXT
-      },
-      orientacoesDomiciliares: {
-        type: Sequelize.TEXT
+      valor: {
+        allowNull: false,
+        type: Sequelize.DECIMAL(10,2)
       },      
+      formaPagamento: {
+        type: Sequelize.STRING
+      },
+      ativo: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -54,6 +45,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Evolucao');
+    await queryInterface.dropTable('ContasPagar');
   }
 };
