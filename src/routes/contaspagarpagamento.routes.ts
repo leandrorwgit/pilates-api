@@ -15,6 +15,7 @@ export class ContasPagarPagamentoRoutes {
     this.router.put('/:id', [verificarJwt], this.contasPagarPagamentoController.atualizar);
     this.router.delete('/:id', [verificarJwt], this.contasPagarPagamentoController.deletar);
 
+    this.router.get('/pagamentos', [verificarJwt], this.contasPagarPagamentoController.listarPagamentos);
     this.router.get('/:id', [verificarJwt], this.contasPagarPagamentoController.buscar);
     this.router.get('/', [verificarJwt], this.contasPagarPagamentoController.listar);
   }

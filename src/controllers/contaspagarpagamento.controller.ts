@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { Validadoes } from '../util/validacoes-comuns';
 import { ContasPagarPagamento } from '../models/contaspagarpagamento';
 import { getMensagemErro, InternalServerError } from '../util/erros';
-import { Op, Sequelize } from 'sequelize';
+import { Op, QueryTypes, Sequelize } from 'sequelize';
+import { sequelize } from '../models';
 
 export class ContasPagarPagamentoController {
 
@@ -122,5 +123,37 @@ export class ContasPagarPagamentoController {
       ]
     });
     res.send(contasPagarPagamentos);
+  }
+  
+  public async listarPagamentos(req: Request, res: Response) {
+    Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
+    Validadoes.campoStringNaoNulo(req.query.ano, 'ano');
+    Validadoes.campoStringNaoNulo(req.query.mes, 'mes');
+    
+    const retorno = await sequelize.query(
+      'SELECT '+ 
+      '"conta"."descricao" AS "descricao", '+
+      '"conta"."valor" AS "valor", '+
+      '"pagamento"."id" AS "idPagamento", '+
+      '"pagamento"."valorPago" AS "valorPago" '+
+      'FROM "ContasPagar" AS "conta" '+
+      'LEFT JOIN "ContasPagarPagamento" AS "pagamento" '+
+      'ON "pagamento"."idContasPagar" = "conta"."id" '+
+      'AND "pagamento"."idUsuario" = "conta"."idUsuario" '+
+      'AND DATE_PART(\'year\', "pagamento"."dataPagamento") = :ano '+
+      'AND DATE_PART(\'month\', "pagamento"."dataPagamento") = :mes '+
+      'WHERE "conta"."idUsuario" = :idUsuario '+
+      'AND "conta"."ativo" = TRUE',
+      {
+        raw: false,
+        replacements: { 
+          idUsuario: req['usuario'].id, 
+          ano: req.query.ano, 
+          mes: req.query.mes 
+        },
+        type: QueryTypes.SELECT
+      }
+    );
+    res.send(retorno);
   }  
 }
