@@ -107,7 +107,7 @@ export class ContasPagarPagamentoController {
     const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : undefined;
 
     const contasPagarPagamentos = await ContasPagarPagamento.findAll({
-      include: [{association: 'contasPagar', attributes: ['id', 'descricao']}], 
+      include: [{association: 'contasPagar', attributes: ['id', 'descricao', 'valor']}], 
       where: {
         [Op.and]: [
           {idUsuario: req['usuario'].id},
