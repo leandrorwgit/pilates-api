@@ -132,6 +132,7 @@ export class ContasPagarPagamentoController {
     
     const retorno = await sequelize.query(
       'SELECT '+ 
+      '"conta"."id" AS "idConta", '+
       '"conta"."descricao" AS "descricao", '+
       '"conta"."valor" AS "valor", '+
       '"pagamento"."id" AS "idPagamento", '+
