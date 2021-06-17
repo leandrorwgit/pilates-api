@@ -16,8 +16,28 @@ export class AgendaController {
       'NULL AS "situacao", '+
       '"aluno"."id" AS "idAluno", '+
       '"aluno"."nome" AS "descricao", '+
-      'CAST("aluno"."aulaHorarioInicio" AS time) AS "horaIni", '+
-      'CAST("aluno"."aulaHorarioInicio" AS time) + ("aluno"."aulaDuracao"||\' min\')::interval AS "horaFim", '+
+      'CAST(COALESCE(( '+
+      '  CASE '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 1)) THEN "aluno"."aulaHorarioInicioSeg" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 2)) THEN "aluno"."aulaHorarioInicioTer" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 3)) THEN "aluno"."aulaHorarioInicioQua" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 4)) THEN "aluno"."aulaHorarioInicioQui" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 5)) THEN "aluno"."aulaHorarioInicioSex" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 6)) THEN "aluno"."aulaHorarioInicioSab" '+
+      '    ELSE NULL '+
+      '  END '+
+      '), "aluno"."aulaHorarioInicio") AS time) AS "horaIni", '+
+      'CAST(COALESCE(( '+
+      '  CASE '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 1)) THEN "aluno"."aulaHorarioInicioSeg" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 2)) THEN "aluno"."aulaHorarioInicioTer" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 3)) THEN "aluno"."aulaHorarioInicioQua" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 4)) THEN "aluno"."aulaHorarioInicioQui" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 5)) THEN "aluno"."aulaHorarioInicioSex" '+
+      '    WHEN ((EXTRACT(isodow FROM "dias"."dia") = 6)) THEN "aluno"."aulaHorarioInicioSab" '+
+      '    ELSE NULL '+
+      '  END '+
+      '), "aluno"."aulaHorarioInicio") AS time) + ("aluno"."aulaDuracao"||\' min\')::interval AS "horaFim", '+
       '"dias"."dia" AS "dia", '+
       '"evolucao"."id" AS "idEvolucao" '+
       'from "Aluno" AS "aluno" '+

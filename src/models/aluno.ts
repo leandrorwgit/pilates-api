@@ -25,6 +25,12 @@ export interface AlunoAttributes {
   aulaHorarioInicio: string;
   aulaDuracao: number;
 	ativo: boolean;
+  aulaHorarioInicioSeg: string;
+  aulaHorarioInicioTer: string;
+  aulaHorarioInicioQua: string;
+  aulaHorarioInicioQui: string;
+  aulaHorarioInicioSex: string;
+  aulaHorarioInicioSab: string;
 }
 
 /*
@@ -112,7 +118,25 @@ interface AlunoInstance
 		ativo: {
 			allowNull: false,
 			type: DataTypes.BOOLEAN,
-		},            
+		},  
+    aulaHorarioInicioSeg: {
+      type: DataTypes.STRING
+    },
+    aulaHorarioInicioTer: {
+      type: DataTypes.STRING
+    },
+    aulaHorarioInicioQua: {
+      type: DataTypes.STRING
+    },
+    aulaHorarioInicioQui: {
+      type: DataTypes.STRING
+    },
+    aulaHorarioInicioSex: {
+      type: DataTypes.STRING
+    },
+    aulaHorarioInicioSab: {
+      type: DataTypes.STRING
+    },          
 	},
   {
     tableName: 'Aluno'
