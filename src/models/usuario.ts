@@ -2,6 +2,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 import { Aluno } from '../models/aluno';
 import { Agendamento } from './agendamento';
+import { Configuracao } from './configuracao';
 import { ContasPagar } from './contaspagar';
 import { ContasPagarPagamento } from './contaspagarpagamento';
 import { Evolucao } from './evolucao';
@@ -151,4 +152,21 @@ Usuario.hasMany(ContasPagarPagamento, {
 ContasPagarPagamento.belongsTo(Usuario, {
   foreignKey: 'idUsuario',
   as: 'usuario'
+});
+
+// MAPEAMENTO PARA CONFIGURACAO
+Usuario.hasMany(Configuracao, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idUsuario',
+  as: 'configuracoes'
+});
+
+Configuracao.belongsTo(Usuario, {
+  foreignKey: 'idUsuario',
+  as: 'configuracao'
 });
