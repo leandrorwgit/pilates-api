@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { sequelize } from '../models';
 import { Validadoes } from '../util/validacoes-comuns';
-const { QueryTypes } = require('sequelize');
+import { QueryTypes } from 'sequelize';
 
 export class AgendaController {
 

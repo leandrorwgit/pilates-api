@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { Validadoes } from '../util/validacoes-comuns';
 import { Aluno } from '../models/aluno';
 import { getMensagemErro, InternalServerError } from '../util/erros';
-import { Op } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
+import { sequelize } from '../models';
 
 export class AlunoController {
 
@@ -159,5 +160,28 @@ export class AlunoController {
       ]
     });
     res.send(alunos);
+  }
+  
+  public async listarPorDiaSemana(req: Request, res: Response) {
+    Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
+    
+    const retorno = await sequelize.query(
+      'SELECT '+
+      'SUM(CASE WHEN "aluno"."aulaSeg" THEN 1 ELSE 0 END) AS "totalAulaSeg", '+
+      'SUM(CASE WHEN "aluno"."aulaTer" THEN 1 ELSE 0 END) AS "totalAulaTer", '+
+      'SUM(CASE WHEN "aluno"."aulaQua" THEN 1 ELSE 0 END) AS "totalAulaQua", '+
+      'SUM(CASE WHEN "aluno"."aulaQui" THEN 1 ELSE 0 END) AS "totalAulaQui", '+
+      'SUM(CASE WHEN "aluno"."aulaSex" THEN 1 ELSE 0 END) AS "totalAulaSex", '+
+      'SUM(CASE WHEN "aluno"."aulaSab" THEN 1 ELSE 0 END) AS "totalAulaSab" '+
+      'FROM "Aluno" AS "aluno" '+
+      'WHERE "aluno"."idUsuario" = :idUsuario '+
+      'AND "aluno"."ativo" = true ',
+      {
+        raw: false,
+        replacements: { idUsuario: req['usuario'].id, data: req.query.data },
+        type: QueryTypes.SELECT
+      }
+    );
+    res.send(retorno);
   }  
 }
