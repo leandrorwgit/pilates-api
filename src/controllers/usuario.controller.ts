@@ -51,6 +51,20 @@ export class UsuarioController {
     }
   }
 
+  public async buscarUsuario(req: Request, res: Response) {
+    try {
+      Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
+      
+      const usuario = await Usuario.findByPk(req['usuario'].id);
+      if (usuario == null )
+        throw Error('Usuário não encontrado');
+
+      res.send(usuario);
+    } catch (erro) {
+      res.status(400).send({ mensagem: 'Erro ao buscar usuário: '+getMensagemErro(erro) });
+    }
+  }  
+
   public async listarUsuario(req: Request, res: Response) {
     const usuarios = await Usuario.findAll();
     usuarios.forEach(usuario => {usuario.senha = ''});

@@ -14,6 +14,7 @@ export class UsuarioRoutes {
     this.router.post('/registrar', this.usuarioController.registrar);
     this.router.post('/login', this.usuarioController.login);
 
+    this.router.get('/buscar', [verificarJwt], this.usuarioController.buscarUsuario);
     this.router.get('/', [verificarJwt], this.usuarioController.listarUsuario);
   }
 }
