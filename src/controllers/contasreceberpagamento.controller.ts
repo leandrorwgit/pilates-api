@@ -1,30 +1,30 @@
 import { Request, Response } from 'express';
 import { Validadoes } from '../util/validacoes-comuns';
-import { ContasPagarPagamento } from '../models/contaspagarpagamento';
+import { ContasReceberPagamento } from '../models/contasreceberpagamento';
 import { getMensagemErro, InternalServerError } from '../util/erros';
 import { Op, QueryTypes, Sequelize } from 'sequelize';
 import { sequelize } from '../models';
 
-export class ContasPagarPagamentoController {
+export class ContasReceberPagamentoController {
 
   public async inserir(req: Request, res: Response) {
     try {
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
-      Validadoes.campoStringNaoNulo(req.body.idContasPagar, 'idContasPagar');
+      Validadoes.campoStringNaoNulo(req.body.idAluno, 'idAluno');
       Validadoes.campoStringNaoNulo(req.body.dataPagamento, 'dataPagamento');
       Validadoes.campoStringNaoNulo(req.body.valorPago, 'valorPago');
 
-      const contasPagarPagamento = await ContasPagarPagamento.create({
+      const contasReceberPagamento = await ContasReceberPagamento.create({
         idUsuario: req['usuario'].id,
-        idContasPagar: req.body.idContasPagar,
+        idAluno: req.body.idAluno,
         dataPagamento: req.body.dataPagamento,
         valorPago: req.body.valorPago,
         formaPagamento: req.body.formaPagamento,
       });
 
-      res.status(200).send(contasPagarPagamento);
+      res.status(200).send(contasReceberPagamento);
     } catch (erro) {
-      res.status(400).send({ mensagem: 'Erro ao inserir pagamento (cp): '+getMensagemErro(erro) });
+      res.status(400).send({ mensagem: 'Erro ao inserir pagamento (cr): '+getMensagemErro(erro) });
     }
   }
 
@@ -32,27 +32,27 @@ export class ContasPagarPagamentoController {
     try {
       Validadoes.campoStringNaoNulo(req.params.id, 'id');
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
-      Validadoes.campoStringNaoNulo(req.body.idContasPagar, 'idContasPagar');
+      Validadoes.campoStringNaoNulo(req.body.idAluno, 'idAluno');
       Validadoes.campoStringNaoNulo(req.body.dataPagamento, 'dataPagamento');
       Validadoes.campoStringNaoNulo(req.body.valorPago, 'valorPago');
 
-      const contasPagarPagamento = await ContasPagarPagamento.findByPk(req.params.id);
-      if (contasPagarPagamento == null )
-      throw Error('Pagamento (cp) não encontrado');
+      const contasReceberPagamento = await ContasReceberPagamento.findByPk(req.params.id);
+      if (contasReceberPagamento == null )
+      throw Error('Pagamento (cr) não encontrado');
 
-      if (contasPagarPagamento.idUsuario != req['usuario'].id) {
+      if (contasReceberPagamento.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode alterar esse registro.`);
       }
 
-      contasPagarPagamento.idContasPagar = req.body.idContasPagar;
-      contasPagarPagamento.dataPagamento = req.body.dataPagamento;
-      contasPagarPagamento.valorPago = req.body.valorPago;
-      contasPagarPagamento.formaPagamento = req.body.formaPagamento;
-      const contasPagarPagamentoAtualizada = await contasPagarPagamento.save();
+      contasReceberPagamento.idAluno = req.body.idAluno;
+      contasReceberPagamento.dataPagamento = req.body.dataPagamento;
+      contasReceberPagamento.valorPago = req.body.valorPago;
+      contasReceberPagamento.formaPagamento = req.body.formaPagamento;
+      const contasReceberPagamentoAtualizada = await contasReceberPagamento.save();
 
-      res.status(200).send(contasPagarPagamentoAtualizada);
+      res.status(200).send(contasReceberPagamentoAtualizada);
     } catch (erro) {
-      res.status(400).send({ mensagem: 'Erro ao atualizar pagamento (cp): '+getMensagemErro(erro) });
+      res.status(400).send({ mensagem: 'Erro ao atualizar pagamento (cr): '+getMensagemErro(erro) });
     }
   }
 
@@ -61,19 +61,19 @@ export class ContasPagarPagamentoController {
       Validadoes.campoStringNaoNulo(req.params.id, 'id');
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
 
-      const contasPagarPagamento = await ContasPagarPagamento.findByPk(req.params.id);
-      if (contasPagarPagamento == null)
-        throw Error('Pagamento (cp) não encontrado');
+      const contasReceberPagamento = await ContasReceberPagamento.findByPk(req.params.id);
+      if (contasReceberPagamento == null)
+        throw Error('Pagamento (cr) não encontrado');
 
-      if (contasPagarPagamento.idUsuario != req['usuario'].id) {
+      if (contasReceberPagamento.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode excluir esse registro.`);
       }
  
-      contasPagarPagamento.destroy();
+      contasReceberPagamento.destroy();
 
       res.status(204).send();
     } catch (erro) {
-      res.status(400).send({ mensagem: 'Erro ao deletar pagamento (cp): '+getMensagemErro(erro) });
+      res.status(400).send({ mensagem: 'Erro ao deletar pagamento (cr): '+getMensagemErro(erro) });
     }
   }  
 
@@ -82,36 +82,36 @@ export class ContasPagarPagamentoController {
       Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
       Validadoes.campoStringNaoNulo(req.params.id, 'id');
       
-      const contasPagarPagamento = await ContasPagarPagamento.findByPk(req.params.id, { include: ["contasPagar"] });
-      if (contasPagarPagamento == null)
-        throw Error('Pagamento (cp) não encontrado');
+      const contasReceberPagamento = await ContasReceberPagamento.findByPk(req.params.id, { include: ["aluno"] });
+      if (contasReceberPagamento == null)
+        throw Error('Pagamento (cr) não encontrado');
 
-      if (contasPagarPagamento.idUsuario != req['usuario'].id) {
+      if (contasReceberPagamento.idUsuario != req['usuario'].id) {
         throw new InternalServerError(`Usuário ${req['usuario'].id} não pode ver esse registro.`);
       } 
       
-      res.send(contasPagarPagamento);
+      res.send(contasReceberPagamento);
     } catch (erro) {
-      res.status(400).send({ mensagem: 'Erro ao buscar pagamento (cp): '+getMensagemErro(erro) });
+      res.status(400).send({ mensagem: 'Erro ao buscar pagamento (cr): '+getMensagemErro(erro) });
     }
   }  
 
   public async listar(req: Request, res: Response) {
     Validadoes.campoStringNaoNulo(req['usuario'].id, 'idUsuario');
 
-    const whereIdContasPagar = req.query.idContasPagar ? {idContasPagar: req.query.idContasPagar} : {};
+    const whereIdAluno = req.query.idAluno ? {idAluno: req.query.idAluno} : {};
     const whereDataPagamento = req.query.dataPagamento ? Sequelize.where(Sequelize.fn('date', Sequelize.col('dataPagamento')), req.query.dataPagamento.toString()) : {};
     
     const offset = req.query.pagina && req.query.tamanhoMax ? 
       (Number.parseInt(req.query.pagina.toString()) * Number.parseInt(req.query.tamanhoMax.toString())) : undefined;
     const limit = req.query.tamanhoMax ? Number.parseInt(req.query.tamanhoMax.toString()) : undefined;
 
-    const contasPagarPagamentos = await ContasPagarPagamento.findAll({
-      include: [{association: 'contasPagar', attributes: ['id', 'descricao', 'valor']}], 
+    const contasReceberPagamentos = await ContasReceberPagamento.findAll({
+      include: [{association: 'aluno', attributes: ['id', 'nome', 'valorPagamento']}], 
       where: {
         [Op.and]: [
           {idUsuario: req['usuario'].id},
-          whereIdContasPagar,
+          whereIdAluno,
           whereDataPagamento
         ]
       },
@@ -119,10 +119,10 @@ export class ContasPagarPagamentoController {
       limit: limit,
       order: [
         ['dataPagamento', 'ASC'],
-        ['contasPagar', 'descricao', 'ASC']
+        ['aluno', 'nome', 'ASC']
       ]
     });
-    res.send(contasPagarPagamentos);
+    res.send(contasReceberPagamentos);
   }
   
   public async listarPagamentos(req: Request, res: Response) {
@@ -132,19 +132,19 @@ export class ContasPagarPagamentoController {
     
     const retorno = await sequelize.query(
       'SELECT '+ 
-      '"conta"."id" AS "idConta", '+
-      '"conta"."descricao" AS "descricao", '+
-      '"conta"."valor" AS "valor", '+
+      '"aluno"."id" AS "idAluno", '+
+      '"aluno"."nome" AS "nome", '+
+      '"aluno"."valorPagamento" AS "valorPagamento", '+
       '"pagamento"."id" AS "idPagamento", '+
       '"pagamento"."valorPago" AS "valorPago" '+
-      'FROM "ContasPagar" AS "conta" '+
-      'LEFT JOIN "ContasPagarPagamento" AS "pagamento" '+
-      'ON "pagamento"."idContasPagar" = "conta"."id" '+
-      'AND "pagamento"."idUsuario" = "conta"."idUsuario" '+
+      'FROM "Aluno" AS "aluno" '+
+      'LEFT JOIN "ContasReceberPagamento" AS "pagamento" '+
+      'ON "pagamento"."idAluno" = "aluno"."id" '+
+      'AND "pagamento"."idUsuario" = "aluno"."idUsuario" '+
       'AND DATE_PART(\'year\', "pagamento"."dataPagamento") = :ano '+
       'AND DATE_PART(\'month\', "pagamento"."dataPagamento") = :mes '+
-      'WHERE "conta"."idUsuario" = :idUsuario '+
-      'AND "conta"."ativo" = TRUE',
+      'WHERE "aluno"."idUsuario" = :idUsuario '+
+      'AND "aluno"."ativo" = TRUE',
       {
         raw: false,
         replacements: { 

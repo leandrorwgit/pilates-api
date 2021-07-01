@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
 import { Agendamento } from './agendamento';
+import { ContasReceberPagamento } from './contasreceberpagamento';
 import { Evolucao } from './evolucao';
 
 export interface AlunoAttributes {
@@ -31,6 +32,7 @@ export interface AlunoAttributes {
   aulaHorarioInicioQui: string;
   aulaHorarioInicioSex: string;
   aulaHorarioInicioSab: string;
+  valorPagamento: number;
 }
 
 /*
@@ -136,7 +138,10 @@ interface AlunoInstance
     },
     aulaHorarioInicioSab: {
       type: DataTypes.STRING
-    },          
+    }, 
+    valorPagamento: {
+      type: DataTypes.DECIMAL(10,2),
+    }
 	},
   {
     tableName: 'Aluno'
@@ -171,6 +176,22 @@ Aluno.hasMany(Agendamento, {
   as: 'agendamentos'
 });
 Agendamento.belongsTo(Aluno, {
+  foreignKey: 'idAluno',
+  as: 'aluno'
+});
+
+// MAPEAMENTO PARA CONTASRECEBERPAGAMENTO
+Aluno.hasMany(ContasReceberPagamento, {
+  /*
+    You can omit the sourceKey property
+    since by default sequelize will use the primary key defined
+    in the model - But I like to be explicit 
+  */
+  sourceKey: 'id',
+  foreignKey: 'idAluno',
+  as: 'contasReceberPagamentos'
+});
+ContasReceberPagamento.belongsTo(Aluno, {
   foreignKey: 'idAluno',
   as: 'aluno'
 });

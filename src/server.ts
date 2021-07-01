@@ -10,6 +10,7 @@ import { AgendaRoutes } from './routes/agenda.routes';
 import { AgendamentoRoutes } from './routes/agendamento.routes';
 import { ContasPagarRoutes } from './routes/contaspagar.routes';
 import { ContasPagarPagamentoRoutes } from './routes/contaspagarpagamento.routes';
+import { ContasReceberPagamentoRoutes } from './routes/contasreceberpagamento.routes';
 import { ConfiguracaoRoutes } from './routes/configuracao.routes';
 
 class Server {
@@ -29,6 +30,7 @@ class Server {
     this.app.use('/api/agendamento', new AgendamentoRoutes().router);
     this.app.use('/api/contaspagar', new ContasPagarRoutes().router);
     this.app.use('/api/contaspagarpagamento', new ContasPagarPagamentoRoutes().router);
+    this.app.use('/api/contasreceberpagamento', new ContasReceberPagamentoRoutes().router);
     this.app.use('/api/configuracao', new ConfiguracaoRoutes().router);
   }
 

@@ -12,4 +12,5 @@ JWT_SECRET=node -e "console.log(require('crypto').randomBytes(256).toString('bas
 <br/>
 <br/>
 npx sequelize-cli model:generate --name Aluno --attributes firstName:string,lastName:string
+npx sequelize-cli migration:generate --name alter-aluno-valorpagamento
 npx sequelize-cli db:migrate   // (para rodar local exportar variável DATABASE_URL)

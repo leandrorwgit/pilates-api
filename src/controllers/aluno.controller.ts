@@ -38,7 +38,8 @@ export class AlunoController {
         aulaHorarioInicioQua: req.body.aulaHorarioInicioQua,
         aulaHorarioInicioQui: req.body.aulaHorarioInicioQui,
         aulaHorarioInicioSex: req.body.aulaHorarioInicioSex,
-        aulaHorarioInicioSab: req.body.aulaHorarioInicioSab
+        aulaHorarioInicioSab: req.body.aulaHorarioInicioSab,
+        valorPagamento: req.body.valorPagamento,
       });
 
       res.status(200).send(aluno);
@@ -86,6 +87,7 @@ export class AlunoController {
       aluno.aulaHorarioInicioQui = req.body.aulaHorarioInicioQui;
       aluno.aulaHorarioInicioSex = req.body.aulaHorarioInicioSex;
       aluno.aulaHorarioInicioSab = req.body.aulaHorarioInicioSab;
+      aluno.valorPagamento = req.body.valorPagamento;
       const alunoAtualizado = await aluno.save();
 
       res.status(200).send(alunoAtualizado);
