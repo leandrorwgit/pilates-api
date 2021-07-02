@@ -144,7 +144,8 @@ export class ContasReceberPagamentoController {
       'AND DATE_PART(\'year\', "pagamento"."dataPagamento") = :ano '+
       'AND DATE_PART(\'month\', "pagamento"."dataPagamento") = :mes '+
       'WHERE "aluno"."idUsuario" = :idUsuario '+
-      'AND "aluno"."ativo" = TRUE',
+      'AND "aluno"."ativo" = TRUE '+
+      'AND "aluno"."valorPagamento" IS NOT NULL ',
       {
         raw: false,
         replacements: { 
